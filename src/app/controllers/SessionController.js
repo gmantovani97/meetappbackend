@@ -15,7 +15,7 @@ class SessionController {
         .required(),
     });
 
-    if (!schema.isValid) {
+    if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation failed' });
     }
 
@@ -33,11 +33,11 @@ class SessionController {
       return res.status(400).json({ error: 'Invalid password' });
     }
 
-    const token = jwt.sign({ email, password }, authConfig.secret, {
+    const token = jwt.sign({ id: user.id }, authConfig.secret, {
       expiresIn: authConfig.expiresIn,
     });
 
-    return res.json({ token });
+    return res.json({ token, email, name: user.name });
   }
 }
 

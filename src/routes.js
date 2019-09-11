@@ -9,4 +9,8 @@ const routes = new Router();
 routes.post('/users', UserController.store);
 routes.post('/session', SessionController.store);
 
+routes.use(auth);
+
+routes.put('/users', UserController.update);
+
 export default routes;
